@@ -9,7 +9,7 @@ export function Home(){
     const [result,setResult] =  useState<string>("")
 
 
-    function applySeparatorRules():string{
+    function applySeparatorRules(text:string):string{
         const applyRange =  new RegExp(`.{1,${range}}`,'g')
         const parts:RegExpMatchArray| null = text.match(applyRange)
         if(parts){
@@ -26,7 +26,7 @@ export function Home(){
 
             setText(words)
             try{
-                setResult(applySeparatorRules())
+                setResult(applySeparatorRules(words))
             }catch(err){
                 alert(err)
             }
