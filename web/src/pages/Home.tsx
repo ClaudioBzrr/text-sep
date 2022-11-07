@@ -10,8 +10,9 @@ export function Home(){
 
 
     function applySeparatorRules(text:string):string{
+        const text_raw =  text.replaceAll(" ","")
         const applyRange =  new RegExp(`.{1,${range}}`,'g')
-        const parts:RegExpMatchArray| null = text.match(applyRange)
+        const parts:RegExpMatchArray| null = text_raw.match(applyRange)
         if(parts){
             const result:string = parts.join(`${separator}`)
 
@@ -49,10 +50,12 @@ export function Home(){
 
             </div>
 
-            <div className="text-center bg-[#41414D] rounded-lg w-[30vw] h-[40vh]">
-                {
-                    result
-                }
+            <div className="text-center bg-[#41414D] rounded-lg w-[30vw] h-[40vh] flex flex-column justify-center">
+                <input className="text-center bg-[#41414D] rounded-lg w-[30vw] h-[40vh] font-semibold text-lg text-[#fff]"
+                    value={result}
+                    contentEditable={false}
+                />
+
             </div>
 
         </div>
