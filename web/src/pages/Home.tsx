@@ -1,12 +1,18 @@
 import { useState } from "react"
+import { Button } from "../components/Button"
+import { Input } from "../components/Input"
 
 
 export function Home(){
 
     const [separator,setSeparator] =  useState<string>(",")
-    const [text,setText] =  useState<string>("")
     const [range,setRange] =  useState<number>(10)
     const [result,setResult] =  useState<string>("")
+
+
+    function copyToCliboard(){
+        navigator.clipboard.writeText(result)
+    }
 
 
     function applySeparatorRules(text:string):string{
@@ -14,7 +20,8 @@ export function Home(){
         const applyRange =  new RegExp(`.{1,${range}}`,'g')
         const parts:RegExpMatchArray| null = text_raw.match(applyRange)
         if(parts){
-            const result:string = parts.join(`${separator}`)
+            const result_filtered = parts.filter((item, index) => parts.indexOf(item) === index)
+            const result:string = result_filtered.join(`${separator}`)
 
             return result
         }else{
@@ -25,7 +32,6 @@ export function Home(){
     function handleInputChange(words:string){
         if(words.length >0){
 
-            setText(words)
             try{
                 setResult(applySeparatorRules(words))
             }catch(err){
@@ -41,17 +47,23 @@ export function Home(){
         <div className="w-screen h-screen flex flex-row items-center justify-around bg-[#191622]">
 
             <div>
-                <input
+
+                <Input
+                    className="w-[30vw] h-[40vh]"
                     onChange={e => handleInputChange(e.currentTarget.value)} 
                     type="text" 
-                    placeholder="Coloque seu texto aqui" 
-                    className="text-center bg-[#41414D] rounded-lg w-[30vw] h-[40vh] font-semibold text-lg text-[#fff]"
+                    placeholder="Coloque seu texto aqui"
                 />
-
             </div>
 
-            <div className="text-center bg-[#41414D] rounded-lg w-[30vw] h-[40vh] flex flex-column justify-center">
-                <input className="text-center bg-[#41414D] rounded-lg w-[30vw] h-[40vh] font-semibold text-lg text-[#fff]"
+
+            <div>
+                <Button 
+                    onClick={() => copyToCliboard()}
+                    title="Copiar"
+                />
+                <Input 
+                    className="w-[30vw] h-[40vh]"
                     value={result}
                     contentEditable={false}
                 />
