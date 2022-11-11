@@ -1,10 +1,12 @@
-import { useState } from "react"
+import { useState, useRef } from "react"
 import {RightFloatButton } from "../components/RightFloatButton"
 import {Textarea } from "../components/Textarea"
 
 
 export function Home(){
 
+    const textareaRef = useRef<HTMLTextAreaElement>()
+    const[text, setText] =  useState<string>('')
     const [separator,setSeparator] =  useState<string>(",")
     const [range,setRange] =  useState<number>(10)
     const [result,setResult] =  useState<string>("")
@@ -33,6 +35,7 @@ export function Home(){
     }
 
     function handleInputChange(words:string){
+        setText(words)
         if(words.length >0){
 
             try{
@@ -49,9 +52,23 @@ export function Home(){
     return(
         <div className="w-screen h-screen flex flex-row items-center justify-around bg-[#191622]">
 
-            <div>
+            <div className="relative">
+
+            {
+                result != '' ?(
+                        <RightFloatButton
+                            onClick={() => {
+                                setResult('')
+                                setText('')
+                            }}
+                            title="Limpar"
+                        />
+                    
+                        ) : null
+            }
 
                 <Textarea
+                    value={text}
                     className="w-[30vw] h-[40vh]"
                     onChange={e => handleInputChange(e.currentTarget.value)} 
                     type="text" 
