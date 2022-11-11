@@ -1,6 +1,6 @@
 import { useState } from "react"
-import { Button } from "../components/Button"
-import { Input } from "../components/Input"
+import {RightFloatButton } from "../components/RightFloatButton"
+import {Textarea } from "../components/Textarea"
 
 
 export function Home(){
@@ -8,10 +8,13 @@ export function Home(){
     const [separator,setSeparator] =  useState<string>(",")
     const [range,setRange] =  useState<number>(10)
     const [result,setResult] =  useState<string>("")
+    const[copied,setCopied] =  useState<boolean>(false)
 
 
     function copyToCliboard(){
         navigator.clipboard.writeText(result)
+        setCopied(true)
+        setTimeout(() => setCopied(false),2000)
     }
 
 
@@ -48,7 +51,7 @@ export function Home(){
 
             <div>
 
-                <Input
+                <Textarea
                     className="w-[30vw] h-[40vh]"
                     onChange={e => handleInputChange(e.currentTarget.value)} 
                     type="text" 
@@ -57,16 +60,24 @@ export function Home(){
             </div>
 
 
-            <div>
-                <Button 
-                    onClick={() => copyToCliboard()}
-                    title="Copiar"
-                />
-                <Input 
-                    className="w-[30vw] h-[40vh]"
+            <div className="relative">
+                <Textarea
+                    readOnly
+                    className="w-[30vw] h-[40vh] box-border"
                     value={result}
                     contentEditable={false}
-                />
+                    />
+                    
+                    {
+                        result != '' ?(
+                            <RightFloatButton
+                                disabled = {copied ==true} 
+                                onClick={() => copyToCliboard()}
+                                title={copied==true ? "Copiado!":"Copiar"}
+                            />
+                    
+                        ) : null
+                    }
 
             </div>
 

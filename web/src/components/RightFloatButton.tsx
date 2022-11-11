@@ -6,11 +6,11 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>{
     icon?:SVGAElement
 }
 
-export function Button({title,...rest}:ButtonProps){
+export function RightFloatButton({title,...rest}:ButtonProps){
     return(
         <button
             type='button'
-            className='p-2 bg-slate-500 rounded-lg text-slate-900 font-semibold hover:bg-slate-200'
+            className={`absolute right-0 top-0 p-2 bg-slate-500 rounded-lg text-slate-900 font-semibold hover:bg-slate-200`}
             {...rest}
         >
             {title}
