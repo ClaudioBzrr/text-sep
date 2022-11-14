@@ -5,7 +5,7 @@ import {routes} from './routes'
 export function App() {
 
   return(
-    <BrowserRouter>
+    <BrowserRouter basename='/text-sep'>
       <Routes>
         {
           routes.map(({path,element},index) =><Route key={index} path={path} element={element}/>)
